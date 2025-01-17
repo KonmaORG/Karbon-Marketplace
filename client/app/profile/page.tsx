@@ -3,7 +3,7 @@ import TokenCard from '@/components/tokenCard';
 import { useWallet } from '@/context/walletContext';
 import React, { useEffect, useState } from 'react'
 
-const POLICYID = "75f7fed150c1020caa4a1badb9370dc6e07d0724d9ab36d4fb5c65e2";
+const POLICYID = "e41cc2543ce6b3c671baafee1bae6cd9fad5495030469b6c59cb49dd";
 export default function Page() {
     const [walletConnection, setWalletConnection] = useWallet();
     const { wallet, lucid, address } = walletConnection
