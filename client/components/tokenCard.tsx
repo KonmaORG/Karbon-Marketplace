@@ -2,11 +2,13 @@
 import { getMetadata, MetadataType } from '@/lib/utils';
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
-import { Minus, Plus } from 'lucide-react'
+import { Minus, Plus, SquareArrowOutUpRight } from 'lucide-react'
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
+import Link from 'next/link';
+import { NETWORK } from '@/config';
 
 interface props {
     token: string;
@@ -32,7 +34,12 @@ export default function TokenCard({ token, qty }: props) {
         <Card className="w-full max-w-sm">
             <CardHeader>
                 <CardTitle className="text-2xl font-bold">{metadata.name}</CardTitle>
-                <CardDescription>{token.slice(0, 32)}...</CardDescription>
+                <CardDescription>
+                    <Link href={`https://${NETWORK == "Mainnet" ? "" : NETWORK + "."}cexplorer.io/asset/${token}`} target="_blank" rel="noopener noreferrer"
+                        className='flex items-baseline gap-2'>
+                        {token.slice(0, 28)}... <SquareArrowOutUpRight size={12} />
+                    </Link>
+                </CardDescription>
             </CardHeader>
             <CardContent className="flex justify-center">
                 <Image
@@ -64,14 +71,14 @@ export default function TokenCard({ token, qty }: props) {
                     </Button>
                 </div>
                 <Button className="h-10">Sell</Button>
-                <div className="flex items-center border rounded-md h-10 px-2 focus-within:ring-2 focus-within:ring-blue-500">
+                <div className="flex items-center border rounded-md h-10 px-2 focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 focus-within:ring-offset-background">
                     <span className="text-lg font-semibold">₳</span>
                     <Input
                         type="number"
                         value={price}
                         onChange={(e) => setPrice(e.target.value)}
                         placeholder="Price"
-                        className="w-20 text-center h-10 border-none outline-none ml-2"
+                        className="w-12 text-center h-10 p-0 border-none outline-none focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent"
                     />
                 </div>
             </CardFooter>
