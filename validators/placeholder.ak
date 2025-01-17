@@ -3,6 +3,7 @@ use aiken/crypto.{VerificationKeyHash}
 use cardano/address.{Address, VerificationKey}
 use cardano/assets
 use cardano/transaction.{Output, OutputReference, Transaction}
+use mocktail/virgin_address.{mock_pub_key_address, mock_pub_key_stake_cred}
 
 validator placeholder {
   spend(
@@ -99,3 +100,22 @@ test address_check() {
   // address==mockaddress
   True
 }
+
+test address() {
+  let add = mock_pub_key_address(1, None)
+  let stake = mock_pub_key_stake_cred(1)
+  let add2 = mock_pub_key_address(1, Some(stake))
+  trace @"stake": stake
+  trace @"add": add
+  trace @"add2": add2
+
+  let add3 =
+    Address {
+      payment_credential: add.payment_credential,
+      stake_credential: Some(stake),
+    }
+
+  trace @"addr3": add3
+  True
+}
+// stake_credential: Some(Inline(ScriptCredential(marketplace_stake_sh))),
