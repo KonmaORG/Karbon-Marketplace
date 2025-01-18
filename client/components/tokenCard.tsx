@@ -1,5 +1,5 @@
 'use client'
-import { getMetadata, MetadataType } from '@/lib/utils';
+import { blockfrost, MetadataType } from '@/lib/utils';
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { Minus, Plus, SquareArrowOutUpRight } from 'lucide-react'
@@ -14,9 +14,10 @@ import { useWallet } from '@/context/walletContext';
 interface props {
     token: string;
     qty: number;
+    type: "Buy" | "Sell"
 }
 
-export default function TokenCard({ token, qty }: props) {
+export default function TokenCard({ token, qty, type }: props) {
     const [walletConnection] = useWallet()
     const { lucid, address } = walletConnection
     const [metadata, setMetadata] = useState<MetadataType>();
@@ -25,15 +26,16 @@ export default function TokenCard({ token, qty }: props) {
 
     useEffect(() => {
         async function fetchData() {
-            const result = await getMetadata(token)
-            setMetadata(result)
+            const result = await blockfrost.getMetadata(token)
+            setMetadata(result.onchain_metadata)
         }
         fetchData()
     }, [])
 
     const handleListing = async () => {
-        if (!lucid || !address || !price) return
-        await Sell(lucid, address, price, token, quantity)
+        if (!lucid || !address) return
+        type == "Buy" ? await console.log(type, address, token, quantity) :
+            await Sell(lucid, address, price as number, token, quantity)
     }
 
     const imageUrl = metadata?.image.replace("ipfs://", "https://ipfs.io/ipfs/");
@@ -81,8 +83,8 @@ export default function TokenCard({ token, qty }: props) {
                         <Plus className="h-3 w-3" />
                     </Button>
                 </div>
-                <Button className="h-8 text-sm px-4" onClick={handleListing}>Sell</Button>
-                <div className="flex items-center border rounded-md h-8 px-1 focus-within:ring-1 focus-within:ring-ring">
+                <Button className="h-8 text-sm px-4" onClick={handleListing} disabled={type === "Sell" && !price}>{type}</Button>
+                {type === "Sell" && <div className="flex items-center border rounded-md h-8 px-1 focus-within:ring-1 focus-within:ring-ring">
                     <span className="text-sm font-semibold">₳</span>
                     <Input
                         type="number"
@@ -91,7 +93,7 @@ export default function TokenCard({ token, qty }: props) {
                         placeholder="Price"
                         className="w-10 text-center h-8 p-0 border-none text-sm outline-none focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent"
                     />
-                </div>
+                </div>}
             </CardFooter>
         </Card>
     )

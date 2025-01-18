@@ -1,4 +1,4 @@
-import { BF_PID, NETWORK } from "@/config";
+import { BF_PID, BF_URL, NETWORK } from "@/config";
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 
@@ -40,30 +40,53 @@ export function toLovelace(ada: number) {
 
 }
 
-export const getMetadata = async (asset: string) => {
-  const url =
-    `https://cardano-${NETWORK}.blockfrost.io/api/v0/assets/${asset}`;
+export const blockfrost = {
+  getMetadata: async (asset: string) => {
+    const url =
+      `${BF_URL}/assets/${asset}`;
 
-  try {
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        "project_id": BF_PID,
-      },
-    });
+    try {
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "project_id": BF_PID,
+        },
+      });
 
-    if (!response.ok) {
-      throw new Error(`Error: ${response.statusText}`);
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
+      }
+
+      const result = await response.json();
+      return result;
+    } catch (err: any) {
+      return err.message;
     }
+  },
 
-    const result = await response.json();
-    return result.onchain_metadata;
-  } catch (err: any) {
-    return err.message;
+  getAddress: async (address: string) => {
+    const url =
+      `${BF_URL}/addresses/${address}`;
+
+    try {
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "project_id": BF_PID,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
+      }
+
+      const result = await response.json();
+      return result;
+    } catch (err: any) {
+      return err.message;
+    }
   }
-};
-
-
+}
 
 
 export type MetadataType = {

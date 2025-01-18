@@ -1,9 +1,9 @@
 'use client'
 import TokenCard from '@/components/tokenCard';
+import { POLICYID } from '@/config';
 import { useWallet } from '@/context/walletContext';
 import React, { useEffect, useState } from 'react'
 
-const POLICYID = "e41cc2543ce6b3c671baafee1bae6cd9fad5495030469b6c59cb49dd";
 export default function Page() {
     const [walletConnection, setWalletConnection] = useWallet();
     const { wallet, lucid, address } = walletConnection
@@ -49,8 +49,8 @@ export default function Page() {
         <div className='flex gap-4 flex-wrap'>
             {Object.entries(karbonTokens).map(([token, qty], index) => (
                 <>
-                    <TokenCard key={index} token={token} qty={qty} />
-                    <TokenCard key={index} token={token} qty={qty} />
+                    <TokenCard key={index} token={token} qty={qty} type='Sell' />
+                    <TokenCard key={index} token={token} qty={qty} type='Sell' />
                 </>
             ))}
         </div>
