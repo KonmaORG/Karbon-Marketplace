@@ -5,7 +5,7 @@ use cardano/assets
 use cardano/transaction.{Output, OutputReference, Transaction}
 use mocktail/virgin_address.{mock_pub_key_address, mock_pub_key_stake_cred}
 
-validator placeholder {
+validator karbonstore {
   spend(
     datum: Option<KarbonDatum>,
     redeemer: KarbonRedeemer,
@@ -87,19 +87,9 @@ pub fn calculate_payout_royalty(amount: Int) -> (Int, Int) {
 
 const royalty: Int = 3
 
-const roylaty_address: VerificationKeyHash = "ykvfiusdgablviaweoblj"
+const roylaty_address: VerificationKeyHash = "addr_test1qzqhza3hpgs5nsfmnqfzakczprrlm3yjdeny7wakywm052q3qskkkydwrt982spj6gq46yheeg4aszdqncv4cg92lzfqffnpd5"
 
-test address_check() {
-  // mockaddress
-  // mockaddress.payment_credential
-  // mockaddress.stake_cre
-  // vkh= "...."
-  // skh= "..."
-  // address={vkh, skh}
-  // scriptaddress={vkh, None}
-  // address==mockaddress
-  True
-}
+
 
 test address() {
   let add = mock_pub_key_address(1, None)
@@ -116,6 +106,6 @@ test address() {
     }
 
   trace @"addr3": add3
-  True
+  add2 ==add3
 }
 // stake_credential: Some(Inline(ScriptCredential(marketplace_stake_sh))),

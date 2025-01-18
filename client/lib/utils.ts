@@ -35,6 +35,10 @@ export function handleError(error: any) {
 }
 
 
+export function toLovelace(ada: number) {
+  return BigInt(ada * 1_000_000);
+
+}
 
 export const getMetadata = async (asset: string) => {
   const url =

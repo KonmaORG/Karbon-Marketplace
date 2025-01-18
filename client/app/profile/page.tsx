@@ -43,11 +43,17 @@ export default function Page() {
     useEffect(() => {
         setKarbonTokens({})
     }, [address, wallet])
-    return (
 
-        Object.entries(karbonTokens).map(([token, qty], index) => (
-            <TokenCard key={index} token={token} qty={qty} />
-        ))
+    if (!address) return <div className="mx-auto w-full">Connect Your Wallet First</div>
+    return (
+        <div className='flex gap-4 flex-wrap'>
+            {Object.entries(karbonTokens).map(([token, qty], index) => (
+                <>
+                    <TokenCard key={index} token={token} qty={qty} />
+                    <TokenCard key={index} token={token} qty={qty} />
+                </>
+            ))}
+        </div>
 
     )
 }
