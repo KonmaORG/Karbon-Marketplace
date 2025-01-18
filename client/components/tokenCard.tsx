@@ -17,6 +17,7 @@ import Link from "next/link";
 import { NETWORK } from "@/config";
 import { Sell } from "./transactions/sell";
 import { useWallet } from "@/context/walletContext";
+import { Buy } from "./transactions/buy";
 
 interface props {
   token: string;
@@ -42,7 +43,7 @@ export default function TokenCard({ token, qty, type }: props) {
   const handleListing = async () => {
     if (!lucid || !address) return;
     type == "Buy"
-      ? await console.log(type, address, token, quantity)
+      ? await Buy(lucid, address, price as number, token, quantity) //console.log(type, address, token, quantity)
       : await Sell(lucid, address, price as number, token, quantity);
   };
 

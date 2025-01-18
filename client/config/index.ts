@@ -16,7 +16,8 @@ export const PROVIDER: Provider = new Blockfrost(BF_URL, BF_PID);
 
 export const KARBONSTOREADDR = validatorToAddress(
   NETWORK,
-  KarbonStoreValidator,
+  KarbonStoreValidator
 );
 export const POLICYID =
-  "e41cc2543ce6b3c671baafee1bae6cd9fad5495030469b6c59cb49dd";
+  "a38a6084e71db8dc7c7a2f63707cd083b5e0e67aebc38cb7bada208c";
+// "e41cc2543ce6b3c671baafee1bae6cd9fad5495030469b6c59cb49dd";
