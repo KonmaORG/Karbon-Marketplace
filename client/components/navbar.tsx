@@ -18,7 +18,6 @@ import { Wallet } from "lucide-react";
 import WalletConnector from "./WalletConnector/client";
 
 export const Navbar = () => {
-
   return (
     <HeroUINavbar maxWidth="xl" position="sticky">
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
@@ -61,7 +60,6 @@ export const Navbar = () => {
       </NavbarContent>
 
       <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
-
         <ThemeSwitch />
         <NavbarMenuToggle />
       </NavbarContent>

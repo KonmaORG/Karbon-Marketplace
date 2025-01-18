@@ -3,19 +3,16 @@ import { WalletConnection } from "@/context/walletContext";
 import { Lucid } from "@lucid-evolution/lucid";
 
 export const mkLucid = async (
-    setWalletConnection: (value: React.SetStateAction<WalletConnection>) => void
+  setWalletConnection: (value: React.SetStateAction<WalletConnection>) => void,
 ): Promise<void> => {
-    try {
-        const lucidInstance = await Lucid(
-            PROVIDER,
-            NETWORK
-        );
+  try {
+    const lucidInstance = await Lucid(PROVIDER, NETWORK);
 
-        setWalletConnection((prev) => ({
-            ...prev,
-            lucid: lucidInstance,
-        }));
-    } catch (error) {
-        console.error("Error initializing Lucid:", error);
-    }
+    setWalletConnection((prev) => ({
+      ...prev,
+      lucid: lucidInstance,
+    }));
+  } catch (error) {
+    console.error("Error initializing Lucid:", error);
+  }
 };

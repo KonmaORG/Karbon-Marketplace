@@ -9,7 +9,6 @@ export type Wallet = {
   enable(): Promise<WalletApi>;
 };
 
-
 export const KarbonStoreDatumSchema = Data.Object({
   owner: Data.Bytes(),
   amount: Data.Integer(),
@@ -17,9 +16,6 @@ export const KarbonStoreDatumSchema = Data.Object({
 export type KarbonStoreDatum = Data.Static<typeof KarbonStoreDatumSchema>;
 export const KarbonStoreDatum =
   KarbonStoreDatumSchema as unknown as KarbonStoreDatum;
-
-
-
 
 export type KarbonStoreRedeemerAction = "Buy" | "Withdraw";
 export const KarbonStoreRedeemerAction = {

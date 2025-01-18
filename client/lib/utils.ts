@@ -1,11 +1,10 @@
 import { BF_PID, BF_URL, NETWORK } from "@/config";
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
-
 
 export function handleError(error: any) {
   const { info, message } = error;
@@ -34,22 +33,19 @@ export function handleError(error: any) {
   console.error(failureCause ?? { error });
 }
 
-
 export function toLovelace(ada: number) {
   return BigInt(ada * 1_000_000);
-
 }
 
 export const blockfrost = {
   getMetadata: async (asset: string) => {
-    const url =
-      `${BF_URL}/assets/${asset}`;
+    const url = `${BF_URL}/assets/${asset}`;
 
     try {
       const response = await fetch(url, {
         method: "GET",
         headers: {
-          "project_id": BF_PID,
+          project_id: BF_PID,
         },
       });
 
@@ -65,14 +61,13 @@ export const blockfrost = {
   },
 
   getAddress: async (address: string) => {
-    const url =
-      `${BF_URL}/addresses/${address}`;
+    const url = `${BF_URL}/addresses/${address}`;
 
     try {
       const response = await fetch(url, {
         method: "GET",
         headers: {
-          "project_id": BF_PID,
+          project_id: BF_PID,
         },
       });
 
@@ -85,9 +80,8 @@ export const blockfrost = {
     } catch (err: any) {
       return err.message;
     }
-  }
-}
-
+  },
+};
 
 export type MetadataType = {
   name: string;
