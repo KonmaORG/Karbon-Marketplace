@@ -2,12 +2,15 @@
 import TokenCard from "@/components/tokenCard";
 import { KARBONSTOREADDR, POLICYID } from "@/config";
 import { useWallet } from "@/context/walletContext";
+import { datumDecoder } from "@/lib/utils";
+import { KarbonStoreDatum } from "@/types/cardano";
+import { Data, LucidEvolution, UTxO } from "@lucid-evolution/lucid";
 import React, { use, useEffect, useState } from "react";
 
 export default function Home() {
   const [walletConnection] = useWallet();
-  const { lucid, address } = walletConnection;
-  const [balance, setBalance] = useState<{ unit: string; quantity: number }[]>(
+  const { lucid } = walletConnection;
+  const [balance, setBalance] = useState<{ unit: string; quantity: number, datum: KarbonStoreDatum }[]>(
     [],
   );
 
@@ -15,12 +18,13 @@ export default function Home() {
     async function fetchutxos() {
       if (!lucid) return;
       const utxos = await lucid.utxosAt(KARBONSTOREADDR);
-      utxos.map((utxo) => {
+      utxos.map(async (utxo) => {
+        const datum = await datumDecoder(lucid, utxo)
         Object.entries(utxo.assets).map(([assetKey, quantity]) => {
           if (assetKey.startsWith(POLICYID)) {
             setBalance((prev) => [
               ...prev,
-              { unit: assetKey, quantity: Number(quantity) },
+              { unit: assetKey, quantity: Number(quantity), datum: datum },
             ]);
           }
         });
@@ -38,6 +42,7 @@ export default function Home() {
             key={token.unit}
             token={token.unit}
             qty={token.quantity}
+            datum={token.datum}
             type="Buy"
           />
         ))}

@@ -11,24 +11,19 @@ import {
 export async function Buy(
   lucid: LucidEvolution,
   address: string,
-  price: number,
+  datum: KarbonStoreDatum,
   token: string,
   qty: number
 ) {
-  const datum: KarbonStoreDatum = {
-    owner: paymentCredentialOf(address).hash,
-    amount: toLovelace(price),
-  };
+
 
   const K_token = { [POLICYID + token]: qty as unknown as bigint };
   const tx = await lucid
     .newTx()
-    .pay.ToAddressWithData(
+    .pay.ToAddress(
       address,
-      { kind: "inline", value: Data.to(datum, KarbonStoreDatum) },
-      K_token
+      { lovelace: 3_000_000n },
     )
-    .pay.ToAddress(KARBONSTOREADDR, { lovelace: price as unknown as bigint })
     .complete();
 
   const signed = await tx.sign.withWallet().complete();

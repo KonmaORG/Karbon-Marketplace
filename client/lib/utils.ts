@@ -1,4 +1,6 @@
 import { BF_PID, BF_URL, NETWORK } from "@/config";
+import { KarbonStoreDatum } from "@/types/cardano";
+import { Data, LucidEvolution, UTxO } from "@lucid-evolution/lucid";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -115,3 +117,9 @@ export type CardanoAsset = {
   onchain_metadata_extra: null | any;
   metadata: null | any;
 };
+
+export async function datumDecoder(lucid: LucidEvolution, utxo: UTxO) {
+  const data = await lucid.datumOf(utxo)
+  const datum = Data.castFrom(data, KarbonStoreDatum)
+  return datum
+}

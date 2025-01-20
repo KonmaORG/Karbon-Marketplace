@@ -18,14 +18,16 @@ import { NETWORK } from "@/config";
 import { Sell } from "./transactions/sell";
 import { useWallet } from "@/context/walletContext";
 import { Buy } from "./transactions/buy";
+import { KarbonStoreDatum } from "@/types/cardano";
 
 interface props {
   token: string;
   qty: number;
+  datum?: KarbonStoreDatum;
   type: "Buy" | "Sell";
 }
 
-export default function TokenCard({ token, qty, type }: props) {
+export default function TokenCard({ token, qty, datum, type }: props) {
   const [walletConnection] = useWallet();
   const { lucid, address } = walletConnection;
   const [metadata, setMetadata] = useState<MetadataType>();
@@ -43,7 +45,7 @@ export default function TokenCard({ token, qty, type }: props) {
   const handleListing = async () => {
     if (!lucid || !address) return;
     type == "Buy"
-      ? await Buy(lucid, address, price as number, token, quantity) //console.log(type, address, token, quantity)
+      ? await Buy(lucid, address, datum as KarbonStoreDatum, token, quantity) //console.log(type, address, token, quantity)
       : await Sell(lucid, address, price as number, token, quantity);
     setQuantity(1);
     setPrice(null);
