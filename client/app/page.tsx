@@ -2,7 +2,6 @@
 import TokenCard from "@/components/tokenCard";
 import { KARBONSTOREADDR, POLICYID } from "@/config";
 import { useWallet } from "@/context/walletContext";
-import { blockfrost } from "@/lib/utils";
 import React, { use, useEffect, useState } from "react";
 
 export default function Home() {
@@ -14,7 +13,7 @@ export default function Home() {
 
   useEffect(() => {
     async function fetchutxos() {
-      if (!lucid || !address) return;
+      if (!lucid) return;
       const utxos = await lucid.utxosAt(KARBONSTOREADDR);
       utxos.map((utxo) => {
         Object.entries(utxo.assets).map(([assetKey, quantity]) => {
@@ -28,10 +27,9 @@ export default function Home() {
       });
     }
     fetchutxos();
-  }, [address]);
+  }, [lucid]);
 
-  if (!address)
-    return <div className="mx-auto w-full">Connect Your Wallet First</div>;
+
   return (
     <div className="flex gap-4 flex-wrap">
       {balance &&
