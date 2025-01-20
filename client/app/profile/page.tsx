@@ -53,9 +53,9 @@ export default function Page() {
       {Object.entries(karbonTokens).map(([token, qty], index) => (
         <>
           <TokenCard key={index} token={token} qty={qty} type="Sell" />
-          <TokenCard key={index} token={token} qty={qty} type="Sell" />
         </>
-      ))}
-    </div>
+      ))
+      }
+    </div >
   );
 }

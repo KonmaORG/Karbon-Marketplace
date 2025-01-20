@@ -42,19 +42,31 @@ export const blockfrost = {
     const url = `${BF_URL}/assets/${asset}`;
 
     try {
-      const response = await fetch(url, {
+      const assetResponse = await fetch(url, {
         method: "GET",
         headers: {
           project_id: BF_PID,
         },
       });
 
-      if (!response.ok) {
-        throw new Error(`Error: ${response.statusText}`);
+      if (!assetResponse.ok) {
+        throw new Error(`Error: ${assetResponse.statusText}`);
       }
 
-      const result = await response.json();
-      return result;
+      const result = (await assetResponse.json());
+
+      // const response = await fetch(`${BF_URL}/txs/${initialTx}/metadata`, {
+      //   method: "GET",
+      //   headers: {
+      //     project_id: BF_PID,
+      //   },
+      // });
+
+      // if (!response.ok) {
+      //   throw new Error(`Error: ${response.statusText}`);
+      // }
+      // const result = await response.json();
+      return result.onchain_metadata;
     } catch (err: any) {
       return err.message;
     }
@@ -86,8 +98,8 @@ export const blockfrost = {
 export type MetadataType = {
   name: string;
   image: string;
-  mediaType: string;
-  description: string;
+  mediaType?: string;
+  description?: string;
 };
 
 export type CardanoAsset = {

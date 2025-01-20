@@ -35,7 +35,7 @@ export default function TokenCard({ token, qty, type }: props) {
   useEffect(() => {
     async function fetchData() {
       const result = await blockfrost.getMetadata(token);
-      setMetadata(result.onchain_metadata);
+      setMetadata(result);
     }
     fetchData();
   }, []);
@@ -45,6 +45,8 @@ export default function TokenCard({ token, qty, type }: props) {
     type == "Buy"
       ? await Buy(lucid, address, price as number, token, quantity) //console.log(type, address, token, quantity)
       : await Sell(lucid, address, price as number, token, quantity);
+    setQuantity(1);
+    setPrice(null);
   };
 
   const imageUrl = metadata?.image.replace("ipfs://", "https://ipfs.io/ipfs/");
@@ -77,7 +79,7 @@ export default function TokenCard({ token, qty, type }: props) {
           />
         </CardContent>
         <CardFooter className="flex items-center justify-between space-x-2 p-2">
-          <div className="flex items-center border rounded-md h-8">
+          <div className="flex items-center border rounded-md h-8 focus-within:ring-1 focus-within:ring-ring">
             <Button
               variant="ghost"
               size="icon"
@@ -86,9 +88,13 @@ export default function TokenCard({ token, qty, type }: props) {
             >
               <Minus className="h-3 w-3" />
             </Button>
-            <span className="w-6 text-center text-sm font-semibold">
-              {quantity}
-            </span>
+            <Input
+              type="number"
+              value={quantity || ""}
+              onChange={(e) => setQuantity(parseInt(e.target.value))}
+              placeholder="Quantity"
+              className="w-6 text-center font-semibold h-8 p-0 border-none text-sm outline-none focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent"
+            />
             <Button
               variant="ghost"
               size="icon"
