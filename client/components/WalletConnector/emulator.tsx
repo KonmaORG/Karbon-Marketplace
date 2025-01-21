@@ -57,6 +57,14 @@ export default function EmulatorConnectors() {
     }
   }
 
+  function log() {
+    emulator.log();
+  }
+
+  function awaitEmulator() {
+    emulator.awaitBlock(1)
+    console.log("Current block height", emulator.blockHeight)
+  }
   if (!wallets)
     return (
       <Snippet hideCopyButton hideSymbol variant="bordered">
@@ -77,7 +85,7 @@ export default function EmulatorConnectors() {
         return (
           <>
             <Skeleton
-              key={`wallet.${w}`}
+              key={w}
               className="rounded-full"
               isLoaded={!!lucid}
             >
@@ -93,6 +101,8 @@ export default function EmulatorConnectors() {
           </>
         );
       })}
+      <Button onClick={log}>Log</Button>
+      <Button onClick={awaitEmulator}>Await</Button>
     </div>
   );
 }
