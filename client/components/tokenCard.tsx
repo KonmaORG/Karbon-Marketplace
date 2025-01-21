@@ -2,7 +2,7 @@
 import { blockfrost, MetadataType } from "@/lib/utils";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { Minus, Plus, SquareArrowOutUpRight } from "lucide-react";
+import { LoaderCircle, Minus, Plus, SquareArrowOutUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -33,6 +33,7 @@ export default function TokenCard({ token, qty, datum, type }: props) {
   const [metadata, setMetadata] = useState<MetadataType>();
   const [quantity, setQuantity] = useState(1);
   const [price, setPrice] = useState<number | null>(null);
+  const [submitting, setSubmitting] = useState(false)
 
   useEffect(() => {
     async function fetchData() {
@@ -44,11 +45,18 @@ export default function TokenCard({ token, qty, datum, type }: props) {
 
   const handleListing = async () => {
     if (!lucid || !address) return;
-    type == "Buy"
-      ? await Buy(lucid, address, datum as KarbonStoreDatum, token, quantity) //console.log(type, address, token, quantity)
-      : await Sell(lucid, address, price as number, token, quantity);
-    setQuantity(1);
-    setPrice(null);
+    setSubmitting(true)
+    try {
+      type == "Buy"
+        ? await Buy(lucid, address, datum as KarbonStoreDatum, token, quantity) //console.log(type, address, token, quantity)
+        : await Sell(lucid, address, price as number, token, quantity);
+    } catch (err: any) {
+      console.log(err.message)
+    } finally {
+      setQuantity(1);
+      setPrice(null);
+      setSubmitting(false)
+    }
   };
 
   const imageUrl = metadata?.image.replace("ipfs://", "https://ipfs.io/ipfs/");
@@ -71,7 +79,7 @@ export default function TokenCard({ token, qty, datum, type }: props) {
             </Link>
           </CardDescription>
         </CardHeader>
-        <CardContent className="flex justify-center p-1">
+        <CardContent className="flex justify-center p-1 relative">
           <Image
             src={imageUrl || ""}
             alt="token image"
@@ -79,6 +87,7 @@ export default function TokenCard({ token, qty, datum, type }: props) {
             height={150}
             className="rounded-md object-cover"
           />
+          <div className="absolute left-2 bottom-2 rounded-full bg-background p-1"><span className="text-primary-foreground">x{qty}</span></div>
         </CardContent>
         <CardFooter className="flex items-center justify-between space-x-2 p-2">
           <div className="flex items-center border rounded-md h-8 focus-within:ring-1 focus-within:ring-ring">
@@ -109,9 +118,9 @@ export default function TokenCard({ token, qty, datum, type }: props) {
           <Button
             className="h-8 text-sm px-4"
             onClick={handleListing}
-            disabled={type === "Sell" && !price}
+            disabled={(type === "Sell" && !price) || submitting}
           >
-            {type}
+            {submitting && <LoaderCircle className="animate-spin" />}{type}
           </Button>
           {type === "Sell" && (
             <div className="flex items-center border rounded-md h-8 px-1 focus-within:ring-1 focus-within:ring-ring">
