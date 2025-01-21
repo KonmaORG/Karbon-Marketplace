@@ -33,7 +33,7 @@ export default function TokenCard({ token, qty, datum, type }: props) {
   const [metadata, setMetadata] = useState<MetadataType>();
   const [quantity, setQuantity] = useState(1);
   const [price, setPrice] = useState<number | null>(null);
-  const [submitting, setSubmitting] = useState(false)
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -45,17 +45,17 @@ export default function TokenCard({ token, qty, datum, type }: props) {
 
   const handleListing = async () => {
     if (!lucid || !address) return;
-    setSubmitting(true)
+    setSubmitting(true);
     try {
       type == "Buy"
         ? await Buy(lucid, address, datum as KarbonStoreDatum, token, quantity) //console.log(type, address, token, quantity)
         : await Sell(lucid, address, price as number, token, quantity);
     } catch (err: any) {
-      console.log(err.message)
+      console.log(err.message);
     } finally {
       setQuantity(1);
       setPrice(null);
-      setSubmitting(false)
+      setSubmitting(false);
     }
   };
 
@@ -87,7 +87,9 @@ export default function TokenCard({ token, qty, datum, type }: props) {
             height={150}
             className="rounded-md object-cover"
           />
-          <div className="absolute left-2 bottom-2 rounded-full  bg-primary text-primary-foreground px-1.5 py-1 text-xs">x{qty}</div>
+          <div className="absolute left-2 bottom-2 rounded-full  bg-primary text-primary-foreground px-1.5 py-1 text-xs">
+            x{qty}
+          </div>
         </CardContent>
         <CardFooter className="flex items-center justify-between space-x-2 p-2">
           <div className="flex items-center border rounded-md h-8 focus-within:ring-1 focus-within:ring-ring">
@@ -120,7 +122,8 @@ export default function TokenCard({ token, qty, datum, type }: props) {
             onClick={handleListing}
             disabled={(type === "Sell" && !price) || submitting}
           >
-            {submitting && <LoaderCircle className="animate-spin" />}{type}
+            {submitting && <LoaderCircle className="animate-spin" />}
+            {type}
           </Button>
           {type === "Sell" && (
             <div className="flex items-center border rounded-md h-8 px-1 focus-within:ring-1 focus-within:ring-ring">
