@@ -11,11 +11,12 @@ import { Link } from "@heroui/link";
 import { link as linkStyles } from "@heroui/theme";
 import NextLink from "next/link";
 import clsx from "clsx";
+
+import WalletConnector from "./WalletConnector/client";
+
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { Logo } from "@/components/icons";
-import { Wallet } from "lucide-react";
-import WalletConnector from "./WalletConnector/client";
 
 export const Navbar = () => {
   return (
