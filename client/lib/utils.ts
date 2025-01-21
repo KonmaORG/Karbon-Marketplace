@@ -1,15 +1,22 @@
-import { BF_PID, BF_URL, NETWORK } from "@/config";
-import { KarbonStoreDatum } from "@/types/cardano";
-import { credentialToAddress, Data, keyHashToCredential, LucidEvolution, UTxO } from "@lucid-evolution/lucid";
+import {
+  credentialToAddress,
+  Data,
+  keyHashToCredential,
+  LucidEvolution,
+  UTxO,
+} from "@lucid-evolution/lucid";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+
+import { KarbonStoreDatum } from "@/types/cardano";
+import { BF_PID, BF_URL, NETWORK } from "@/config";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
 export function handleError(error: any) {
-  const { info, message } = error;
+  // const { info, message } = error;
 
   function toJSON(error: any) {
     try {
@@ -26,8 +33,8 @@ export function handleError(error: any) {
   const { failure } = cause ?? {};
 
   const failureCause = failure?.cause;
-  const failureInfo = failureCause?.info;
-  const failureMessage = failureCause?.message;
+  // const failureInfo = failureCause?.info;
+  // const failureMessage = failureCause?.message;
 
   // toast(`${failureInfo ?? failureMessage ?? info ?? message ?? error}`, {
   // type: "error",
@@ -55,7 +62,7 @@ export const blockfrost = {
         throw new Error(`Error: ${assetResponse.statusText}`);
       }
 
-      const result = (await assetResponse.json());
+      const result = await assetResponse.json();
 
       // const response = await fetch(`${BF_URL}/txs/${initialTx}/metadata`, {
       //   method: "GET",
@@ -90,6 +97,7 @@ export const blockfrost = {
       }
 
       const result = await response.json();
+
       return result;
     } catch (err: any) {
       return err.message;
@@ -119,13 +127,15 @@ export type CardanoAsset = {
 };
 
 export async function datumDecoder(lucid: LucidEvolution, utxo: UTxO) {
-  const data = await lucid.datumOf(utxo)
-  const datum = Data.castFrom(data, KarbonStoreDatum)
-  return datum
+  const data = await lucid.datumOf(utxo);
+  const datum = Data.castFrom(data, KarbonStoreDatum);
+
+  return datum;
 }
 
 export function vkhToAddress(vkh: string) {
   const credential = keyHashToCredential(vkh);
   const address = credentialToAddress(NETWORK, credential);
-  return address
+
+  return address;
 }
