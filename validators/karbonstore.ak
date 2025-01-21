@@ -17,8 +17,8 @@ validator karbonstore {
     let (marketplace_payout, seller_payout) = calculate_payout_royalty(amount)
     when redeemer is {
       Buy -> and {
-          payout_to_seller(outputs, owner, seller_payout),
-          payout_to_marketplace(outputs, roylaty_address, marketplace_payout),
+          payout_to_seller(outputs, owner, seller_payout)?,
+          payout_to_marketplace(outputs, roylaty_address, marketplace_payout)?,
         }
       Withdraw -> list.has(extra_signatories, owner)
     }
@@ -64,8 +64,8 @@ pub fn payout_check(
     outputs,
     fn(o) {
       and {
-        address_verificationKey_match(o.address, owner),
-        assets.lovelace_of(o.value) == amount,
+        address_verificationKey_match(o.address, owner)?,
+        (assets.lovelace_of(o.value) >= amount)?,
       }
     },
   )
@@ -87,7 +87,7 @@ pub fn calculate_payout_royalty(amount: Int) -> (Int, Int) {
 
 const royalty: Int = 3
 
-const roylaty_address: VerificationKeyHash = "addr_test1qzqhza3hpgs5nsfmnqfzakczprrlm3yjdeny7wakywm052q3qskkkydwrt982spj6gq46yheeg4aszdqncv4cg92lzfqffnpd5"
+const roylaty_address: VerificationKeyHash = #"70840826b6f202d0b9a1ade2b75b5eca9d326e6a9c7117c071ab4704"
 
 
 
