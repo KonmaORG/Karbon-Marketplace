@@ -3,9 +3,8 @@ use aiken/crypto.{VerificationKeyHash}
 use cardano/address.{Address, VerificationKey}
 use cardano/assets
 use cardano/transaction.{Output, OutputReference, Transaction}
-use mocktail/virgin_address.{mock_pub_key_address, mock_pub_key_stake_cred}
 
-validator placeholder {
+validator karbonstore {
   spend(
     datum: Option<KarbonDatum>,
     redeemer: KarbonRedeemer,
@@ -17,8 +16,8 @@ validator placeholder {
     let (marketplace_payout, seller_payout) = calculate_payout_royalty(amount)
     when redeemer is {
       Buy -> and {
-          payout_to_seller(outputs, owner, seller_payout),
-          payout_to_marketplace(outputs, roylaty_address, marketplace_payout),
+          payout_to_seller(outputs, owner, seller_payout)?,
+          payout_to_marketplace(outputs, roylaty_address, marketplace_payout)?,
         }
       Withdraw -> list.has(extra_signatories, owner)
     }
@@ -64,8 +63,8 @@ pub fn payout_check(
     outputs,
     fn(o) {
       and {
-        address_verificationKey_match(o.address, owner),
-        assets.lovelace_of(o.value) == amount,
+        address_verificationKey_match(o.address, owner)?,
+        (assets.lovelace_of(o.value) >= amount)?,
       }
     },
   )
@@ -87,35 +86,5 @@ pub fn calculate_payout_royalty(amount: Int) -> (Int, Int) {
 
 const royalty: Int = 3
 
-const roylaty_address: VerificationKeyHash = "ykvfiusdgablviaweoblj"
-
-test address_check() {
-  // mockaddress
-  // mockaddress.payment_credential
-  // mockaddress.stake_cre
-  // vkh= "...."
-  // skh= "..."
-  // address={vkh, skh}
-  // scriptaddress={vkh, None}
-  // address==mockaddress
-  True
-}
-
-test address() {
-  let add = mock_pub_key_address(1, None)
-  let stake = mock_pub_key_stake_cred(1)
-  let add2 = mock_pub_key_address(1, Some(stake))
-  trace @"stake": stake
-  trace @"add": add
-  trace @"add2": add2
-
-  let add3 =
-    Address {
-      payment_credential: add.payment_credential,
-      stake_credential: Some(stake),
-    }
-
-  trace @"addr3": add3
-  True
-}
-// stake_credential: Some(Inline(ScriptCredential(marketplace_stake_sh))),
+const roylaty_address: VerificationKeyHash =
+  #"70840826b6f202d0b9a1ade2b75b5eca9d326e6a9c7117c071ab4704"

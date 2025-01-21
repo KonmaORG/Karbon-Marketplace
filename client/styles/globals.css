@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 140 60% 96%; /* Light greenish background */
+    --foreground: 140 20% 20%; /* Dark green for text */
+    --card: 140 50% 97%; /* Slightly darker than background */
+    --card-foreground: 140 25% 25%; /* Rich green text for cards */
+    --popover: 140 50% 95%;
+    --popover-foreground: 140 30% 30%;
+    --primary: 145 45% 40%; /* Forest green for primary elements */
+    --primary-foreground: 140 60% 98%; /* Light for contrast */
+    --secondary: 120 30% 85%; /* Soft pale green */
+    --secondary-foreground: 140 25% 25%;
+    --muted: 120 25% 85%; /* Muted green tones */
+    --muted-foreground: 120 15% 50%;
+    --accent: 160 40% 70%; /* Teal for accent colors */
+    --accent-foreground: 140 15% 20%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 140 20% 80%; /* Soft border */
+    --input: 140 20% 80%;
+    --ring: 140 45% 40%; /* Darker ring for focus */
+    --chart-1: 120 60% 45%; /* Vibrant green for charts */
+    --chart-2: 90 40% 40%; /* Olive green */
+    --chart-3: 160 40% 60%; /* Teal for charts */
+    --chart-4: 60 70% 50%; /* Yellowish green */
+    --chart-5: 30 80% 55%; /* Earthy orange */
+    --radius: 0.5rem;
+  }
+  .dark {
+    --background: 140 20% 10%; /* Dark greenish background */
+    --foreground: 140 60% 85%; /* Light green for text */
+    --card: 140 25% 15%; /* Darker cards */
+    --card-foreground: 140 60% 85%;
+    --popover: 140 25% 15%;
+    --popover-foreground: 140 60% 85%;
+    --primary: 140 45% 70%; /* Vibrant green for primary */
+    --primary-foreground: 140 20% 10%;
+    --secondary: 140 20% 20%; /* Muted dark green */
+    --secondary-foreground: 140 60% 85%;
+    --muted: 140 15% 15%;
+    --muted-foreground: 140 60% 70%;
+    --accent: 160 45% 40%;
+    --accent-foreground: 140 60% 85%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 140 20% 20%;
+    --input: 140 20% 20%;
+    --ring: 140 45% 40%;
+    --chart-1: 120 60% 50%;
+    --chart-2: 90 40% 45%;
+    --chart-3: 160 40% 60%;
+    --chart-4: 60 70% 50%;
+    --chart-5: 30 80% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Remove spinners for Chrome, Safari, Edge, Opera */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Remove spinners for Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
