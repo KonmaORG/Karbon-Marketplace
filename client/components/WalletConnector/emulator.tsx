@@ -62,8 +62,8 @@ export default function EmulatorConnectors() {
   }
 
   function awaitEmulator() {
-    emulator.awaitBlock(1)
-    console.log("Current block height", emulator.blockHeight)
+    emulator.awaitBlock(1);
+    console.log("Current block height", emulator.blockHeight);
   }
   if (!wallets)
     return (
@@ -84,11 +84,7 @@ export default function EmulatorConnectors() {
       {wallets.map((wallet, w) => {
         return (
           <>
-            <Skeleton
-              key={w}
-              className="rounded-full"
-              isLoaded={!!lucid}
-            >
+            <Skeleton key={w} className="rounded-full" isLoaded={!!lucid}>
               <Button
                 className="capitalize"
                 color="primary"
