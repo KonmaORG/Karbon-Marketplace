@@ -1,11 +1,5 @@
 import { createContext, Dispatch, SetStateAction, useContext } from "react";
-import {
-  Address,
-  LucidEvolution,
-  PaymentKeyHash,
-  RewardAddress,
-  StakeKeyHash,
-} from "@lucid-evolution/lucid";
+import { Address, LucidEvolution } from "@lucid-evolution/lucid";
 
 import { Wallet } from "@/types/cardano";
 

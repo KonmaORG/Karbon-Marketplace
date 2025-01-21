@@ -1,10 +1,16 @@
 "use client";
 import { useEffect, useState } from "react";
+import { LoaderCircle, LogOut, Wallet as WalletIcon } from "lucide-react";
+import Image from "next/image";
+
+import { Button } from "../ui/button";
+
+import { SUPPORTEDWALLETS } from "./wallets";
+
 import { Wallet } from "@/types/cardano";
 import { handleError } from "@/lib/utils";
 import { useWallet } from "@/context/walletContext";
 import { mkLucid } from "@/lib/lucid";
-import { SUPPORTEDWALLETS } from "./wallets";
 import {
   Dialog,
   DialogContent,
@@ -13,9 +19,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { LoaderCircle, LogOut, Wallet as WalletIcon } from "lucide-react";
-import { Button } from "../ui/button";
-import Image from "next/image";
+
 export default function WalletComponent() {
   const [walletConnection, setWalletConnection] = useWallet();
   const { lucid, address } = walletConnection;
@@ -29,6 +33,7 @@ export default function WalletComponent() {
 
     const installedWallets: Wallet[] = [];
     const { cardano } = window;
+
     for (const c in cardano) {
       const wallet = cardano[c];
 
@@ -39,6 +44,7 @@ export default function WalletComponent() {
       const matchingWallet = installedWallets.find((provider) =>
         provider.name.toLowerCase().includes(preWallet.name.toLowerCase()),
       );
+
       return {
         ...preWallet,
         ...(matchingWallet && { enable: matchingWallet.enable }),
@@ -116,15 +122,15 @@ export default function WalletComponent() {
               {wallets.map((wallet) => (
                 <Button
                   key={wallet.name}
-                  onClick={() => onConnectWallet(wallet)}
-                  disabled={!wallet.enable}
                   className="w-full"
+                  disabled={!wallet.enable}
+                  onClick={() => onConnectWallet(wallet)}
                 >
                   <Image
-                    src={wallet.icon}
                     alt={wallet.name}
-                    width={20}
                     height={20}
+                    src={wallet.icon}
+                    width={20}
                   />
                   {wallet.name}
                 </Button>

@@ -8,6 +8,9 @@ import {
   paymentCredentialOf,
 } from "@lucid-evolution/lucid";
 import { Skeleton } from "@heroui/skeleton";
+
+import { Button } from "../ui/button";
+
 import { handleError } from "@/lib/utils";
 import { useWallet } from "@/context/walletContext";
 import {
@@ -17,7 +20,6 @@ import {
   accountD,
   emulator,
 } from "@/config/emulator";
-import { Button } from "../ui/button";
 
 export default function EmulatorConnectors() {
   const [walletConnection, setWalletConnection] = useWallet();
@@ -26,6 +28,7 @@ export default function EmulatorConnectors() {
   const [wallets, setWallets] = useState<EmulatorAccount[]>();
 
   let isInit = false;
+
   useEffect(() => {
     if (isInit) return;
     else isInit = true;

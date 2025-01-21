@@ -1,12 +1,6 @@
+import { BeginIcon, EternlIcon, NamiIcon, VesprIcon, YoroiIcon } from "./icons";
+
 import { Wallet } from "@/types/cardano";
-import {
-  BeginIcon,
-  EternlIcon,
-  NamiIcon,
-  VesprIcon,
-  YoroiIcon,
-  WalletIcon,
-} from "./icons";
 
 export const SUPPORTEDWALLETS: Wallet[] = [
   {

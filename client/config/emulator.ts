@@ -1,4 +1,5 @@
 import { generateEmulatorAccount, Emulator } from "@lucid-evolution/lucid";
+
 import { POLICYID } from ".";
 
 export const accountA = generateEmulatorAccount({

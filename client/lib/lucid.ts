@@ -1,6 +1,7 @@
+import { Lucid } from "@lucid-evolution/lucid";
+
 import { NETWORK, PROVIDER } from "@/config";
 import { WalletConnection } from "@/context/walletContext";
-import { Lucid } from "@lucid-evolution/lucid";
 
 export const mkLucid = async (
   setWalletConnection: (value: React.SetStateAction<WalletConnection>) => void,
