@@ -1,16 +1,16 @@
-"use client";
-import { useEffect, useState } from "react";
-import { LoaderCircle, LogOut, Wallet as WalletIcon } from "lucide-react";
-import Image from "next/image";
+'use client'
+import { useEffect, useState } from 'react'
+import { LoaderCircle, LogOut, Wallet as WalletIcon } from 'lucide-react'
+import Image from 'next/image'
 
-import { Button } from "../ui/button";
+import { Button } from '../ui/button'
 
-import { SUPPORTEDWALLETS } from "./wallets";
+import { SUPPORTEDWALLETS } from './wallets'
 
-import { Wallet } from "@/types/cardano";
-import { handleError } from "@/lib/utils";
-import { useWallet } from "@/context/walletContext";
-import { mkLucid } from "@/lib/lucid";
+import { Wallet } from '@/types/cardano'
+import { handleError } from '@/lib/utils'
+import { useWallet } from '@/context/walletContext'
+import { mkLucid } from '@/lib/lucid'
 import {
   Dialog,
   DialogContent,
@@ -18,63 +18,63 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog'
 
 export default function WalletComponent() {
-  const [walletConnection, setWalletConnection] = useWallet();
-  const { lucid, address } = walletConnection;
+  const [walletConnection, setWalletConnection] = useWallet()
+  const { lucid, address } = walletConnection
 
-  const [wallets, setWallets] = useState<Wallet[]>(SUPPORTEDWALLETS);
-  const [isOpen, setIsOpen] = useState(false);
-  const [connecting, setConnecting] = useState<boolean>(false);
+  const [wallets, setWallets] = useState<Wallet[]>(SUPPORTEDWALLETS)
+  const [isOpen, setIsOpen] = useState(false)
+  const [connecting, setConnecting] = useState<boolean>(false)
 
   useEffect(() => {
-    mkLucid(setWalletConnection);
+    mkLucid(setWalletConnection)
 
-    const installedWallets: Wallet[] = [];
-    const { cardano } = window;
+    const installedWallets: Wallet[] = []
+    const { cardano } = window
 
     for (const c in cardano) {
-      const wallet = cardano[c];
+      const wallet = cardano[c]
 
-      if (!wallet.apiVersion) continue;
-      installedWallets.push(wallet);
+      if (!wallet.apiVersion) continue
+      installedWallets.push(wallet)
     }
     const updatedPreWallets = wallets.map((preWallet) => {
       const matchingWallet = installedWallets.find((provider) =>
-        provider.name.toLowerCase().includes(preWallet.name.toLowerCase()),
-      );
+        provider.name.toLowerCase().includes(preWallet.name.toLowerCase())
+      )
 
       return {
         ...preWallet,
         ...(matchingWallet && { enable: matchingWallet.enable }),
-      };
-    });
+      }
+    })
 
-    setWallets(updatedPreWallets);
-  }, []);
+    setWallets(updatedPreWallets)
+  }, [])
 
   async function onConnectWallet(wallet: Wallet) {
-    setConnecting(true);
-    setIsOpen(false);
+    setConnecting(true)
+    setIsOpen(false)
     try {
-      if (!lucid) throw "Uninitialized Lucid!!!";
+      if (!lucid) throw 'Uninitialized Lucid!!!'
 
-      const api = await wallet.enable();
+      const api = await wallet.enable()
 
-      lucid.selectWallet.fromAPI(api);
+      lucid.selectWallet.fromAPI(api)
 
-      const address = await lucid.wallet().address();
-      const balance = parseInt(await api.getBalance());
+      const address = await lucid.wallet().address()
+      const balance = parseInt(await api.getBalance())
 
       setWalletConnection((prev) => {
-        return { ...prev, wallet, address, balance };
-      });
+        return { ...prev, wallet, address, balance }
+      })
     } catch (error) {
-      setConnecting(false);
-      handleError(error);
+      setConnecting(false)
+      handleError(error)
     }
-    setConnecting(false);
+    setConnecting(false)
   }
 
   function disconnect() {
@@ -82,16 +82,16 @@ export default function WalletComponent() {
       return {
         ...prev,
         wallet: undefined,
-        address: "",
+        address: '',
         balance: undefined,
-      };
-    });
+      }
+    })
   }
 
   return (
-    <div className="">
+    <div className=''>
       {address ? (
-        <Button variant="outline" onClick={disconnect}>
+        <Button variant='outline' onClick={disconnect}>
           <LogOut />
           Disconnect
         </Button>
@@ -101,7 +101,7 @@ export default function WalletComponent() {
             <Button disabled={connecting}>
               {connecting ? (
                 <>
-                  <LoaderCircle className="animate-spin" /> Connecting...
+                  <LoaderCircle className='animate-spin' /> Connecting...
                 </>
               ) : (
                 <>
@@ -111,18 +111,18 @@ export default function WalletComponent() {
               )}
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
+          <DialogContent className='sm:max-w-[425px]'>
             <DialogHeader>
               <DialogTitle>Connect Wallet</DialogTitle>
               <DialogDescription>
                 Choose a wallet to connect to your account.
               </DialogDescription>
             </DialogHeader>
-            <div className="flex gap-4 py-4 w-full">
+            <div className='flex gap-4 py-4 w-full'>
               {wallets.map((wallet) => (
                 <Button
                   key={wallet.name}
-                  className="w-full"
+                  className='w-full'
                   disabled={!wallet.enable}
                   onClick={() => onConnectWallet(wallet)}
                 >
@@ -140,5 +140,5 @@ export default function WalletComponent() {
         </Dialog>
       )}
     </div>
-  );
+  )
 }
