@@ -1,11 +1,12 @@
-import { KARBONSTOREADDR, NETWORK } from "@/config";
-import { toLovelace } from "@/lib/utils";
-import { KarbonStoreDatum } from "@/types/cardano";
 import {
   Data,
   LucidEvolution,
   paymentCredentialOf,
 } from "@lucid-evolution/lucid";
+
+import { KARBONSTOREADDR } from "@/config";
+import { toLovelace } from "@/lib/utils";
+import { KarbonStoreDatum } from "@/types/cardano";
 
 export async function Sell(
   lucid: LucidEvolution,
@@ -29,5 +30,6 @@ export async function Sell(
 
   const signed = await tx.sign.withWallet().complete();
   const txHash = await signed.submit();
+
   console.log("txHash: ", txHash);
 }
