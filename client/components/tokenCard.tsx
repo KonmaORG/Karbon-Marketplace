@@ -87,7 +87,7 @@ export default function TokenCard({ token, qty, datum, type }: props) {
             height={150}
             className="rounded-md object-cover"
           />
-          <div className="absolute left-2 bottom-2 rounded-full bg-background p-1"><span className="text-primary-foreground">x{qty}</span></div>
+          <div className="absolute left-2 bottom-2 rounded-full  bg-primary text-primary-foreground px-1.5 py-1 text-xs">x{qty}</div>
         </CardContent>
         <CardFooter className="flex items-center justify-between space-x-2 p-2">
           <div className="flex items-center border rounded-md h-8 focus-within:ring-1 focus-within:ring-ring">
