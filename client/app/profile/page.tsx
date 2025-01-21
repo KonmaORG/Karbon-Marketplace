@@ -1,6 +1,7 @@
 "use client";
 import TokenCard from "@/components/tokenCard";
 import { POLICYID } from "@/config";
+import { emulator } from "@/config/emulator";
 import { useWallet } from "@/context/walletContext";
 import React, { useEffect, useState } from "react";
 
@@ -10,11 +11,10 @@ export default function Page() {
   const [karbonTokens, setKarbonTokens] = useState<Record<string, number>>({});
   useEffect(() => {
     async function tokens() {
-      if (!lucid || !wallet || !address) return;
+      if (!lucid || !address) return;
       const assetSet = new Set();
-      // const api = await wallet.enable()
-      // api.getBalance()
       const utxos = await lucid.wallet().getUtxos();
+      // const utxos = await emulator.getUtxos(address);
       const aggregateTokenQuantities = () => {
         const quantities: Record<string, number> = {};
 
@@ -33,14 +33,14 @@ export default function Page() {
             });
           }
         });
-
+        console.log(quantities)
         setKarbonTokens(quantities);
       };
 
       aggregateTokenQuantities();
     }
     tokens();
-  }, [wallet, address]);
+  }, [address]);
 
   useEffect(() => {
     setKarbonTokens({});
