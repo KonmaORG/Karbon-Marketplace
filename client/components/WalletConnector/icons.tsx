@@ -8,18 +8,17 @@ export const WalletIcon: React.FC<IconSvgProps> = ({
   size = 20,
   width,
   height,
-  ...props
 }) => (
   <svg
+    className="lucide lucide-wallet-minimal"
     fill="none"
-    width={size || width}
     height={size || height}
-    viewBox="0 0 24 24"
     stroke="currentColor"
-    strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="lucide lucide-wallet-minimal"
+    strokeWidth="2"
+    viewBox="0 0 24 24"
+    width={size || width}
   >
     <path d="M17 14h.01" />
     <path d="M7 7h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14" />
