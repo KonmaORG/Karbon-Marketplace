@@ -23,7 +23,7 @@
     "@heroui/switch": "2.2.8",
     "@heroui/system": "2.4.6",
     "@heroui/theme": "2.4.5",
-    "@lucid-evolution/lucid": "^0.4.20",
+    "@lucid-evolution/lucid": "^0.4.21",
     "@radix-ui/react-dialog": "^1.1.4",
     "@radix-ui/react-slot": "^1.1.1",
     "@react-aria/ssr": "3.9.7",
